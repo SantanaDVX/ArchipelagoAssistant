@@ -13,7 +13,7 @@ button.addEventListener("click", async () => {
     }
 
     // Example URL construction
-    const url = `https://archipelago.gg/dl_spoiler/${value}`;
+    const url = `https://corsproxy.io/?https://archipelago.gg/dl_spoiler/${value}`;
 
     try {
         const response = await fetch(url);
