@@ -2,32 +2,29 @@ const input = document.getElementById("inputValue");
 const button = document.getElementById("fetchBtn");
 const output = document.getElementById("output");
 
-console.log("Alpha");
-
 button.addEventListener("click", async () => {
-    console.log("Bravo");
-    const value = input.value.trim();
-    if (!value) {
-        output.textContent = "Please enter a value.";
-        return;
+  const seed = input.value.trim();
+  if (!seed) {
+    output.textContent = "Please enter a seed.";
+    return;
+  }
+
+  const targetUrl = `https://archipelago.gg/dl_spoiler/${seed}`;
+  const proxyUrl = `https://corsproxy.io/?${targetUrl}`;
+
+  output.textContent = "Loading...";
+
+  try {
+    const response = await fetch(proxyUrl);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
     }
 
-    // Example URL construction
-    const url = `https://corsproxy.io/?https://archipelago.gg/dl_spoiler/${value}`;
+    const text = await response.text();
+    output.textContent = text;
 
-    try {
-        const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`HTTP ${response.status}`);
-        }
-
-        const text = await response.text();
-        output.textContent = text;
-
-        console.log("Charlie");
-    } catch (err) {
-        output.textContent = `Error: ${err.message}`;
-        console.log("Delta");
-    }
+  } catch (err) {
+    output.textContent = `Error: ${err.message}`;
+  }
 });
